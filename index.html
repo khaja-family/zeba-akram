@@ -196,8 +196,10 @@
     timezoneOffset: new Date().getTimezoneOffset(),
     sessionID: document.cookie.replace(/(?:(?:^|.*;\s*)session_id\s*=\s*([^;]*).*$)|^.*$/, "$1")
     };
+// var sheetUrl = 'https://script.google.com/macros/s/AKfycbztM12kIk2plaXMWYqZTKrVjevbXgrQnDd_tpyW6KzaaYo2MU5SdNf3sourMWLQ1ICs4Q/exec'
+            var sheetUrl = 'https://script.google.com/macros/s/AKfycbxue05XdfjgioQwsX-8oSjd2-vL7duHQDYICWw_KKgaJucABoj8-Eb3TXBx23vLRys3vw/exec'
 
-    fetch('https://script.google.com/macros/s/AKfycbztM12kIk2plaXMWYqZTKrVjevbXgrQnDd_tpyW6KzaaYo2MU5SdNf3sourMWLQ1ICs4Q/exec', {
+    fetch(sheetUrl, {
         method: 'POST',
             mode: 'no-cors',
         headers: {
