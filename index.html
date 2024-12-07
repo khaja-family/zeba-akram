@@ -182,27 +182,84 @@
 
     <!-- JavaScript for recording visitor information (for future server-side implementation) -->
     <script>
-        // Function to capture visitor information and store it in a file or database (this part would need a backend to store data)
+   
         window.onload = function() {
-            var visitorData = {
-                timestamp: new Date().toISOString(),
-                userAgent: navigator.userAgent,
-                referrer: document.referrer,
-                location: window.location.href,
-            };
+    var visitorData = {
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        referrer: document.referrer,
+        pageUrl: window.location.href,
+        browserName: getBrowserName(),
+        deviceType: getDeviceType(),
+        screenWidth: window.screen.width,
+        screenHeight: window.screen.height,
+         userLanguage: navigator.language,
+    timezoneOffset: new Date().getTimezoneOffset(),
+    sessionID: document.cookie.replace(/(?:(?:^|.*;\s*)session_id\s*=\s*([^;]*).*$)|^.*$/, "$1")
+    };
+                // Send visitor data to Google Sheets via the Apps Script Web App URL
+        fetch('https://script.google.com/macros/s/AKfycbztM12kIk2plaXMWYqZTKrVjevbXgrQnDd_tpyW6KzaaYo2MU5SdNf3sourMWLQ1ICs4Q/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(visitorData)
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log("Visitor data recorded:", data);
+        })
+        .catch(error => {
+            console.error("Error recording visitor data:", error);
+        });
+    };
+function getBrowserName() {
+    var userAgent = navigator.userAgent;
+    var browserName = "Unknown Browser";
 
-            // Example function to send data to a server (mock implementation)
-            fetch('https://your-backend-server.com/save-visitor', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(visitorData),
-            })
-            .then(response => response.json())
-            .catch(error => console.error('Error recording visitor data:', error));
-        };
-    </script>
+    // Check for major browsers
+    if (userAgent.indexOf("Chrome") > -1) {
+        browserName = "Chrome";
+    } else if (userAgent.indexOf("Safari") > -1) {
+        browserName = "Safari";
+    } else if (userAgent.indexOf("Firefox") > -1) {
+        browserName = "Firefox";
+    } else if (userAgent.indexOf("Edge") > -1) {
+        browserName = "Edge";
+    } else if (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1) {
+        browserName = "Internet Explorer";
+    } else if (userAgent.indexOf("Opera") > -1) {
+        browserName = "Opera";
+    } else if (userAgent.indexOf("Android") > -1) {
+        browserName = "Android Browser";
+    }
 
+    return browserName;
+}
+
+function getDeviceType() {
+    var userAgent = navigator.userAgent;
+    var platform = navigator.platform;
+
+    if (/iPhone|iPad|iPod|Android/i.test(userAgent)) {
+        if (/iPad/i.test(userAgent)) {
+            return "Tablet";
+        } else {
+            return "Mobile";
+        }
+    } else if (/Mac|Windows|Linux/i.test(platform)) {
+        return "Desktop";
+    } else {
+        return "Unknown Device";
+    }
+}
+
+        
+        
+     
+
+
+    
+</script>
 </body>
 </html>
