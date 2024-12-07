@@ -182,7 +182,6 @@
 
     <!-- JavaScript for recording visitor information (for future server-side implementation) -->
     <script>
-   
         window.onload = function() {
     var visitorData = {
         timestamp: new Date().toISOString(),
@@ -197,22 +196,54 @@
     timezoneOffset: new Date().getTimezoneOffset(),
     sessionID: document.cookie.replace(/(?:(?:^|.*;\s*)session_id\s*=\s*([^;]*).*$)|^.*$/, "$1")
     };
-                // Send visitor data to Google Sheets via the Apps Script Web App URL
-        fetch('https://script.google.com/macros/s/AKfycbztM12kIk2plaXMWYqZTKrVjevbXgrQnDd_tpyW6KzaaYo2MU5SdNf3sourMWLQ1ICs4Q/exec', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(visitorData)
-        })
-        .then(response => response.text())
-        .then(data => {
-            console.log("Visitor data recorded:", data);
-        })
-        .catch(error => {
-            console.error("Error recording visitor data:", error);
-        });
-    };
+
+    fetch('https://script.google.com/macros/s/AKfycbztM12kIk2plaXMWYqZTKrVjevbXgrQnDd_tpyW6KzaaYo2MU5SdNf3sourMWLQ1ICs4Q/exec', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(visitorData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Visitor data recorded:", data);
+    })
+    .catch(error => {
+        console.error("Error recording visitor data:", error);
+    });
+};
+
+   
+    //     window.onload = function() {
+    // var visitorData = {
+    //     timestamp: new Date().toISOString(),
+    //     userAgent: navigator.userAgent,
+    //     referrer: document.referrer,
+    //     pageUrl: window.location.href,
+    //     browserName: getBrowserName(),
+    //     deviceType: getDeviceType(),
+    //     screenWidth: window.screen.width,
+    //     screenHeight: window.screen.height,
+    //      userLanguage: navigator.language,
+    // timezoneOffset: new Date().getTimezoneOffset(),
+    // sessionID: document.cookie.replace(/(?:(?:^|.*;\s*)session_id\s*=\s*([^;]*).*$)|^.*$/, "$1")
+    // };
+    //             // Send visitor data to Google Sheets via the Apps Script Web App URL
+    //     fetch('https://script.google.com/macros/s/AKfycbztM12kIk2plaXMWYqZTKrVjevbXgrQnDd_tpyW6KzaaYo2MU5SdNf3sourMWLQ1ICs4Q/exec', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(visitorData)
+    //     })
+    //     .then(response => response.text())
+    //     .then(data => {
+    //         console.log("Visitor data recorded:", data);
+    //     })
+    //     .catch(error => {
+    //         console.error("Error recording visitor data:", error);
+    //     });
+    // };
 function getBrowserName() {
     var userAgent = navigator.userAgent;
     var browserName = "Unknown Browser";
