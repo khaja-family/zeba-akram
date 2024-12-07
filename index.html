@@ -19,12 +19,44 @@
             padding: 20px;
         }
 
-        /* Video styling */
+        /* Golden Floral Border Frame for Video */
+        .video-container {
+            position: relative;
+            display: inline-block;
+            border: 10px solid #DAA520; /* Golden border */
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); /* Glow effect */
+            border-radius: 15px;
+        }
+
         video {
             width: 100%;
             height: auto;
-            border: none;
+            border-radius: 10px;
+        }
+
+        /* Wedding Info Text */
+        .wedding-info {
+            text-align: center;
+            font-size: 18px;
+            color: #8B0000;
             margin-bottom: 20px;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* Organizer Name with Animation */
+        .organizer-name {
+            text-align: center;
+            font-size: 36px;
+            color: #FF4500;
+            font-family: 'Georgia', serif;
+            animation: fadeIn 3s ease-in-out;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
         /* Location and contact details section */
@@ -48,16 +80,13 @@
         /* Icon styles */
         .icon {
             margin-right: 8px;
+            font-size: 24px;
         }
 
         .location, .contact {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
-        }
-
-        .location i, .contact i {
-            font-size: 24px;
         }
 
         /* Media Queries for responsiveness */
@@ -74,36 +103,106 @@
                 margin-right: 20px;
             }
         }
+
+        /* Fancy Icons for Events */
+        .event-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .event-icons a {
+            color: #FF6347;
+            font-size: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .event-icons a:hover {
+            transform: scale(1.2);
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Video Embed -->
-        <video controls>
-            <source src="https://khaja-family.github.io/zeba-akram/azhar-video.mp4" type="video/mp4">
-        </video>
+        <!-- Organizer Name -->
+        <div class="organizer-name">
+            <span>Zeba and Akram Wedding</span>
+        </div>
+
+        <!-- Wedding Info Text -->
+        <div class="wedding-info">
+            <p>Join us as we celebrate the union of Zeba and Akram!</p>
+            <p>It's going to be a day full of love, joy, and unforgettable moments.</p>
+        </div>
+
+        <!-- Video Embed with Golden Floral Border -->
+        <div class="video-container">
+            <video controls>
+                <source src="https://khaja-family.github.io/zeba-akram/azhar-video.mp4" type="video/mp4">
+            </video>
+        </div>
 
         <!-- Location and Contact Details -->
         <div class="details">
-            <!-- Location -->
+            <!-- Location 1 -->
             <div class="location">
                 <i class="icon fas fa-map-marker-alt"></i>
-        <a href="https://maps.app.goo.gl/PTAEGGAfdHbav2xq6" target="_blank">Y.S. Convention</a>
-                 
-                </a>
+                <a href="https://maps.app.goo.gl/PTAEGGAfdHbav2xq6" target="_blank">Y.S. Convention</a>
             </div>
-<br>
+            <br>
+            <!-- Location 2 -->
+            <div class="location">
+                <i class="icon fas fa-map-marker-alt"></i>
+                <a href="https://maps.app.goo.gl/another-event-location" target="_blank">Event Location 2</a>
+            </div>
+
             <!-- Contact -->
             <div class="contact">
                 <i class="icon fas fa-phone-alt"></i>
                 <a href="tel:+919704028302">+91 9704028302</a>
             </div>
         </div>
+
+        <!-- Fancy Event Location Icons -->
+        <div class="event-icons">
+            <a href="https://maps.app.goo.gl/PTAEGGAfdHbav2xq6" target="_blank">
+                <i class="fas fa-map-marker-alt"></i>
+            </a>
+            <a href="https://maps.app.goo.gl/another-event-location" target="_blank">
+                <i class="fas fa-map-marker-alt"></i>
+            </a>
+        </div>
     </div>
 
     <!-- Font Awesome icons (optional for location and contact icons) -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- JavaScript for recording visitor information (for future server-side implementation) -->
+    <script>
+        // Function to capture visitor information and store it in a file or database (this part would need a backend to store data)
+        window.onload = function() {
+            var visitorData = {
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                referrer: document.referrer,
+                location: window.location.href,
+            };
+
+            // Example function to send data to a server (mock implementation)
+            fetch('https://your-backend-server.com/save-visitor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(visitorData),
+            })
+            .then(response => response.json())
+            .catch(error => console.error('Error recording visitor data:', error));
+        };
+    </script>
 
 </body>
 </html>
