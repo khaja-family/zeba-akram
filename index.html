@@ -3,52 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Public Page</title>
+    <title>Zeba and Akram</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Basic reset */
+        body, h1, p {
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Responsive layout */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Video styling */
+        video {
+            width: 100%;
+            height: auto;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        /* Location and contact details section */
+        .details {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
             text-align: center;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            color: white;
-            background-color: #007BFF;
+
+        .details a {
+            color: #0077cc;
             text-decoration: none;
-            border-radius: 5px;
+            font-size: 16px;
         }
-        a:hover {
-            background-color: #0056b3;
+
+        .details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Icon styles */
+        .icon {
+            margin-right: 8px;
+        }
+
+        .location, .contact {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .location i, .contact i {
+            font-size: 24px;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (min-width: 768px) {
+            .details {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+
+            .location, .contact {
+                margin-bottom: 0;
+                margin-right: 20px;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Welcome to My Page</h1>
-        <p>Click below to view more details on Google Maps.</p>
+        <!-- Video Embed -->
+        <video controls>
+            <source src="https://your-username.github.io/your-repository-name/assets/azhar-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Location and Contact Details -->
+        <div class="details">
+            <!-- Location -->
+            <div class="location">
+                <i class="icon fas fa-map-marker-alt"></i>
         <a href="https://maps.app.goo.gl/PTAEGGAfdHbav2xq6" target="_blank">Open Google Maps</a>
-        <img src="https://via.placeholder.com/600x400" alt="Details Image">
+                    Y.S. Convention
+                </a>
+            </div>
+
+            <!-- Contact -->
+            <div class="contact">
+                <i class="icon fas fa-phone-alt"></i>
+                <a href="tel:+919704028302">+91 9704028302</a>
+            </div>
+        </div>
     </div>
+
+    <!-- Font Awesome icons (optional for location and contact icons) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 </body>
 </html>
