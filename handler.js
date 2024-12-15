@@ -10,9 +10,9 @@ function constructVisitorData() {
             lat = position.coords.latitude;
             longg = position.coords.longitude;
             locationStr = getLocationFromCoordinates(lat, longg)
-            ipAddr = ''//ip;
         });
     }
+    ipAddr = getIP();
     const now = new Date();
     const istOffset = 5.5 * 60; // IST offset in minutes
     const istTime = new Date(now.getTime() + (istOffset - now.getTimezoneOffset()) * 60000);
@@ -42,6 +42,18 @@ function constructVisitorData() {
 
     postVisitorData(visitorData);
 }
+function getIP() {
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            const ipAddress = data.ip;  // The IP address is returned in the `ip` field
+            console.log("IP Address:", ipAddress);
+        })
+        .catch(error => {
+            console.error("Error fetching IP address:", error);
+        });
+}
+
 function postVisitorData(visitorData) {
     //AKfycby6ete0OvPbNFXRGNMXvRoGUDNjDM7ISrbrzYbMgN1Qi52i9pKFcLY7a5x7DLg9j9axmA
     // AKfycbxue05XdfjgioQwsX-8oSjd2-vL7duHQDYICWw_KKgaJucABoj8-Eb3TXBx23vLRys3vw
