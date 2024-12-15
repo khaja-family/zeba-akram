@@ -1,18 +1,17 @@
+var ipAddr = '';
+var lat = null, longg = null, locationStr = '', metaData = '';
+
+
 window.onload = function () {
     addFallingPetals();
-    constructVisitorData();
+    getCityFromIP();
+    setTimeout(() => {
+        constructVisitorData();
+    }, 2500);
 };
-function constructVisitorData() {
-    let lat = null, longg = null, ipAddr = '', locationStr = '';
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            lat = position.coords.latitude;
-            longg = position.coords.longitude;
-            locationStr = getLocationFromCoordinates(lat, longg)
-        });
-    }
-    ipAddr = getIP();
+function constructVisitorData() {
+
     const now = new Date();
     const istOffset = 5.5 * 60; // IST offset in minutes
     const istTime = new Date(now.getTime() + (istOffset - now.getTimezoneOffset()) * 60000);
@@ -20,6 +19,7 @@ function constructVisitorData() {
     const minutes = istTime.getMinutes().toString().padStart(2, '0');
     const seconds = istTime.getSeconds().toString().padStart(2, '0');
     const timeInIST = `${hours}:${minutes}:${seconds}`;
+
     var visitorData = {
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent,
@@ -31,37 +31,41 @@ function constructVisitorData() {
         screenHeight: window.screen.height,
         userLanguage: navigator.language,
         timezoneOffset: new Date().getTimezoneOffset(),
-        sessionID: document.cookie.replace(/(?:(?:^|.*;\s*)session_id\s*=\s*([^;]*).*$)|^.*$/, "$1"),
+        sessionID: metaData + "-"+ document.cookie.replace(/(?:(?:^|.*;\s*)session_id\s*=\s*([^;]*).*$)|^.*$/, "$1"),
         latitude: lat,
         longitude: longg,
         ipAddr: ipAddr,
         timeInIST: timeInIST,
         locationStr: locationStr
     };
-    console.log(JSON.stringify(visitorData));
-
+    // console.log(JSON.stringify(visitorData));
     postVisitorData(visitorData);
 }
-function getIP() {
-    fetch('https://api.ipify.org?format=json')
+function getCityFromIP() {
+    fetch('https://get.geojs.io/v1/ip/geo.json')
         .then(response => response.json())
         .then(data => {
-            const ipAddress = data.ip;  // The IP address is returned in the `ip` field
-            console.log("IP Address:", ipAddress);
+            const city = data.city;  // City name
+            metaData = JSON.stringify(data); //metaData
+            locationStr = data.city + "-" + data.country;
+            lat = data.latitude;
+            longg = data.longitude;
+            ipAddr = data.ip;
         })
         .catch(error => {
-            console.error("Error fetching IP address:", error);
+            console.error("Error fetching IP data:", error);
         });
 }
+
 
 function postVisitorData(visitorData) {
     //AKfycby6ete0OvPbNFXRGNMXvRoGUDNjDM7ISrbrzYbMgN1Qi52i9pKFcLY7a5x7DLg9j9axmA
     // AKfycbxue05XdfjgioQwsX-8oSjd2-vL7duHQDYICWw_KKgaJucABoj8-Eb3TXBx23vLRys3vw
     // var sheetUrl = 'https://script.google.com/macros/s/AKfycbztM12kIk2plaXMWYqZTKrVjevbXgrQnDd_tpyW6KzaaYo2MU5SdNf3sourMWLQ1ICs4Q/exec'
     var deploymentId = "AKfycby6ete0OvPbNFXRGNMXvRoGUDNjDM7ISrbrzYbMgN1Qi52i9pKFcLY7a5x7DLg9j9axmA";
-    var sheetUrl = 'https://script.google.com/macros/s/'+deploymentId+'/exec';
+    var sheetUrl = 'https://script.google.com/macros/s/' + deploymentId + '/exec';
 
-    console.log(JSON.stringify(visitorData));
+    // console.log(JSON.stringify(visitorData));
     fetch(sheetUrl, {
         method: 'POST',
         mode: 'no-cors',
@@ -70,13 +74,13 @@ function postVisitorData(visitorData) {
         },
         body: JSON.stringify(visitorData),
     })
-        // .then(response => response.json())
-        // .then(data => {
-        //     console.log("Visitor data recorded:", data);
-        // })
-        // .catch(error => {
-        //     console.error("Error recording visitor data:", error);
-        // });
+    // .then(response => response.json())
+    // .then(data => {
+    //     console.log("Visitor data recorded:", data);
+    // })
+    // .catch(error => {
+    //     console.error("Error recording visitor data:", error);
+    // });
 }
 
 function getBrowserName() {
@@ -172,25 +176,5 @@ function addFallingPetals() {
         }
         return false;
     }
-}
-
-function getLocationFromCoordinates(lat, lon) {
-    const url = `https://geocode.xyz/${lat},${lon}?json=1`;
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                // console.error("Error:", data.error.description);
-                return data.error.description;
-            } else {
-                const address = data.staddress + ", " + data.city + ", " + data.country;
-                return address;
-            }
-        })
-        .catch(error => {
-            // console.error("Error fetching location:", error);
-            return "Error fetching location:" + error;
-        });
 }
 
