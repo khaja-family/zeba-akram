@@ -135,13 +135,17 @@
         }
 
         .details a {
-            color: #fcb103;
+            color: #DAA520;
             text-decoration: none;
             font-size: 16px;
         }
 
         .details a:hover {
             text-decoration: underline;
+        }
+        .italics-Between{
+            font-size: small;
+            margin-right: 2px;
         }
 
 
